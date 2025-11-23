@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pikachu Canvas Art</title>
+</head>
+
+<body>
+    <canvas id="pikachuCanvas" width="1900" height="900"></canvas>
+    <script>
+        const canvas = document.getElementById('pikachuCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawBackground() {
+
+                const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                skyGradient.addColorStop(0, '#87CEEB'); 
+                skyGradient.addColorStop(1, '#B0E0E6'); 
+                ctx.fillStyle = skyGradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const grassGradient = ctx.createLinearGradient(0, canvas.height * 0.7, 0, canvas.height);
+                grassGradient.addColorStop(0, '#32CD32'); 
+                grassGradient.addColorStop(1, '#228B22'); 
+                ctx.fillStyle = grassGradient;
+                ctx.fillRect(0, canvas.height * 0.7, canvas.width, canvas.height * 0.3);
+
+                function drawCloud(x, y, scale) {
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 20 * scale, 0, Math.PI * 2);
+                    ctx.arc(x + 25 * scale, y + 10 * scale, 25 * scale, 0, Math.PI * 2);
+                    ctx.arc(x + 55 * scale, y, 20 * scale, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                drawCloud(300, 100, 1.2);
+                drawCloud(1000, 150, 1);
+                drawCloud(1500, 80, 1.5);
+            }
+
+        function drawFrontPikachu(centerX, centerY, scale = 2) {
+
+            drawBackground();
+
+            const bodyBottomY = centerY + 70 * scale + 100 * scale;
+
+            const tailBaseX = centerX + 50 * scale;
+            const tailBaseY = bodyBottomY - 60 * scale;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(tailBaseX, tailBaseY);
+
+            ctx.lineTo(tailBaseX + 102 * scale, tailBaseY - 10 * scale);
+            ctx.lineTo(tailBaseX + 55 * scale, tailBaseY - 55 * scale);
+            ctx.lineTo(tailBaseX + 102 * scale, tailBaseY - 102 * scale);
+            ctx.lineTo(tailBaseX + 85 * scale, tailBaseY - 121 * scale);
+            ctx.lineTo(tailBaseX + 240 * scale, tailBaseY - 210 * scale);
+
+            ctx.lineTo(tailBaseX + 120 * scale, tailBaseY - 210 * scale);
+            ctx.lineTo(tailBaseX + 120 * scale, tailBaseY - 150 * scale);
+            ctx.lineTo(tailBaseX + 150 * scale, tailBaseY - 130 * scale);
+            ctx.lineTo(tailBaseX + 99 * scale, tailBaseY - 80 * scale);
+            ctx.lineTo(tailBaseX + 120 * scale, tailBaseY - 60 * scale);
+            ctx.lineTo(tailBaseX + 40 * scale, tailBaseY - 20 * scale);
+            ctx.lineTo(tailBaseX, tailBaseY);
+            ctx.closePath();
+
+            ctx.fillStyle = '#FFD600';
+            ctx.fill();
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3 * scale;
+            ctx.stroke();
+
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.ellipse(tailBaseX, tailBaseY, 12 * scale, 12 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke(); 
+            ctx.restore();
+
+            function drawEar(ex, ey, flip = 1) {
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ex - 20 * scale * flip, ey - 90 * scale);
+                ctx.lineTo(ex + 20 * scale * flip, ey - 90 * scale);
+                ctx.closePath();
+                ctx.fillStyle = '#FFD600';
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(ex - 20 * scale * flip, ey - 90 * scale);
+                ctx.lineTo(ex + 20 * scale * flip, ey - 90 * scale);
+                ctx.lineTo(ex, ey - 110 * scale);
+                ctx.closePath();
+                ctx.fillStyle = '#000';
+                ctx.fill();
+            }
+            drawEar(centerX - 50 * scale, centerY - 30 * scale, 1);
+            drawEar(centerX + 50 * scale, centerY - 30 * scale, -1);
+
+            ctx.fillStyle = '#FFD600';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3 * scale;
+
+            ctx.beginPath();
+            ctx.ellipse(centerX - 40 * scale, bodyBottomY - 5 * scale, 20 * scale, 10 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(centerX + 40 * scale, bodyBottomY - 5 * scale, 20 * scale, 10 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            const bodyGradient = ctx.createRadialGradient(centerX, centerY + 70 * scale, 20 * scale, centerX, centerY + 70 * scale, 100 * scale);
+            bodyGradient.addColorStop(1, '#FFD600');
+            ctx.fillStyle = bodyGradient;
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3 * scale;
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY + 70 * scale, 80 * scale, 100 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#FFD600';
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY - 30 * scale, 70 * scale, 60 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.arc(centerX - 25 * scale, centerY - 45 * scale, 12 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(centerX + 25 * scale, centerY - 45 * scale, 12 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(centerX - 20 * scale, centerY - 50 * scale, 5 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(centerX + 30 * scale, centerY - 50 * scale, 5 * scale, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#FF0000';
+            ctx.beginPath();
+            ctx.ellipse(centerX - 48 * scale, centerY - 10 * scale, 15 * scale, 15 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(centerX + 48 * scale, centerY - 10 * scale, 15 * scale, 15 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY - 30 * scale, 4 * scale, 2 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.lineWidth = 2 * scale;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - 18 * scale);
+            ctx.quadraticCurveTo(centerX - 2 * scale, centerY - 10 * scale, centerX - 15 * scale, centerY - 15 * scale);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - 18 * scale);
+            ctx.quadraticCurveTo(centerX + 2 * scale, centerY - 10 * scale, centerX + 15 * scale, centerY - 15 * scale);
+            ctx.stroke();
+
+            function drawArm(ax, ay, flip = 1) {
+                ctx.fillStyle = '#FFD600';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2 * scale;
+
+                ctx.save();
+                ctx.translate(ax + flip * 70 * scale, ay + 40 * scale);
+                ctx.rotate(flip * 0.3);
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 15 * scale, 45 * scale, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                for (let i = -1; i <= 1; i++) {
+                    ctx.beginPath();
+                    ctx.ellipse(i * 5 * scale, 40 * scale, 3 * scale, 6 * scale, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+            drawArm(centerX, centerY + 20 * scale, -0.80);
+            drawArm(centerX, centerY + 20 * scale, 0.80);  
+
+        }
+
+        drawFrontPikachu(canvas.width / 2, canvas.height / 2, 2);
+    </script>
+</body>
+
+</html>
